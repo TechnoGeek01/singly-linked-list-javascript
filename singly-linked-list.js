@@ -37,7 +37,7 @@ class SinglyLinkedList {
 
     this.tail = newTail;
     this.tail.next = null;
-    this.length--;
+    this.length - 1;
 
     if (this.length === 0) {
       this.head = null;
@@ -52,7 +52,7 @@ class SinglyLinkedList {
 
     var currentHead = this.head;
     this.head = currentHead.next;
-    this.length--;
+    this.length - 1;
 
     if (this.length === 0) {
       this.tail = null;
@@ -99,6 +99,55 @@ class SinglyLinkedList {
     }
 
     return false;
+  }
+
+  insert(index, val) {
+    if (index < 0 || index > this.length) return undefined;
+
+    if (index === this.length) return !!this.push(val);
+
+    if (index === 0) return !!this.unshift(val);
+
+    var newNode = new Node(val);
+    var prevNode = this.get(index - 1);
+    var nextNode = prevNode.next;
+    prevNode.next = newNode;
+    newNode.next = nextNode;
+    this.length++;
+    return true;
+  }
+
+  remove(index, val) {
+    if (index < 0 || index > this.length) return undefined;
+
+    if (index === this.length - 1) return !!this.pop(val);
+
+    if (index === 0) return !!this.shift(val);
+
+    var prevNode = this.get(index - 1);
+    var deletedNode = prevNode.next;
+    var nextNode = deletedNode.next;
+    prevNode.next = nextNode;
+    this.length - 1;
+
+    return deletedNode;
+  }
+
+  reverse() {
+    var node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+    var next;
+    var prev = null;
+
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+
+    return this;
   }
 }
 
